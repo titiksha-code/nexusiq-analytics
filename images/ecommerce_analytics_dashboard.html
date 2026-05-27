@@ -1,0 +1,257 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.db{background:var(--color-background-tertiary);padding:16px;border-radius:var(--border-radius-lg)}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.topbar-title{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.topbar-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.badge{font-size:11px;padding:3px 8px;border-radius:var(--border-radius-md);background:#EAF3DE;color:#27500A;font-weight:500}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
+.kpi-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.kpi-val{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.kpi-delta{font-size:11px;margin-top:3px}
+.up{color:#3B6D11}.dn{color:#A32D2D}
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px}
+.panel-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.seg-bar-wrap{margin-bottom:6px}
+.seg-label{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.seg-bar{height:6px;border-radius:3px;background:var(--color-background-secondary)}
+.seg-fill{height:6px;border-radius:3px}
+.cust-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.cust-row:last-child{border-bottom:none}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.prod-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.prod-row:last-child{border-bottom:none}
+.pill{font-size:10px;padding:2px 7px;border-radius:10px}
+.pill-g{background:#EAF3DE;color:#27500A}
+.pill-r{background:#FCEBEB;color:#791F1F}
+.pill-a{background:#FAEEDA;color:#633806}
+.forecast-pts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.fpt{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:6px 10px;font-size:11px;color:var(--color-text-secondary);text-align:center}
+.fpt strong{display:block;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.map-cell{border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;font-weight:500}
+.heat-1{background:#E6F1FB;color:#0C447C}
+.heat-2{background:#85B7EB;color:#042C53}
+.heat-3{background:#378ADD;color:#042C53}
+.heat-4{background:#185FA5;color:#E6F1FB}
+.heat-5{background:#0C447C;color:#E6F1FB}
+</style>
+
+<h2 class="sr-only">E-commerce sales and customer analytics dashboard with KPIs, charts, customer and product analytics, regional heatmap, and forecasting panels</h2>
+
+<div class="db">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title"><i class="ti ti-chart-bar" style="font-size:16px;margin-right:5px" aria-hidden="true"></i>E-Commerce Analytics Platform</div>
+      <div class="topbar-sub">Jan 2024 – Dec 2024 &nbsp;·&nbsp; All regions</div>
+    </div>
+    <span class="badge"><i class="ti ti-trending-up" style="font-size:12px;margin-right:3px" aria-hidden="true"></i>Live data</span>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label"><i class="ti ti-currency-dollar" style="font-size:13px" aria-hidden="true"></i>Total revenue</div>
+      <div class="kpi-val">$2.47M</div>
+      <div class="kpi-delta up"><i class="ti ti-arrow-up" style="font-size:11px" aria-hidden="true"></i> +18.3% vs last year</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label"><i class="ti ti-shopping-cart" style="font-size:13px" aria-hidden="true"></i>Total orders</div>
+      <div class="kpi-val">34,812</div>
+      <div class="kpi-delta up"><i class="ti ti-arrow-up" style="font-size:11px" aria-hidden="true"></i> +11.2% vs last year</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label"><i class="ti ti-coin" style="font-size:13px" aria-hidden="true"></i>Net profit</div>
+      <div class="kpi-val">$618K</div>
+      <div class="kpi-delta up"><i class="ti ti-arrow-up" style="font-size:11px" aria-hidden="true"></i> +9.6% margin</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label"><i class="ti ti-receipt" style="font-size:13px" aria-hidden="true"></i>Avg order value</div>
+      <div class="kpi-val">$70.95</div>
+      <div class="kpi-delta dn"><i class="ti ti-arrow-down" style="font-size:11px" aria-hidden="true"></i> -2.1% vs last year</div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-line" style="font-size:14px" aria-hidden="true"></i>Monthly revenue & profit</div>
+      <div style="display:flex;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:#185FA5;border-radius:2px;display:inline-block"></span>Revenue</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:#0F6E56;border-radius:2px;display:inline-block;border-top:2px dashed #0F6E56;background:none"></span>Profit</span>
+      </div>
+      <div style="position:relative;height:160px"><canvas id="revChart" role="img" aria-label="Monthly revenue and profit line chart for 2024">Revenue peaks in Nov–Dec. Profit follows same trend.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-users" style="font-size:14px" aria-hidden="true"></i>Customer segments</div>
+      <div class="seg-bar-wrap">
+        <div class="seg-label"><span>New customers</span><span>42%</span></div>
+        <div class="seg-bar"><div class="seg-fill" style="width:42%;background:#185FA5"></div></div>
+      </div>
+      <div class="seg-bar-wrap">
+        <div class="seg-label"><span>Repeat buyers</span><span>35%</span></div>
+        <div class="seg-bar"><div class="seg-fill" style="width:35%;background:#0F6E56"></div></div>
+      </div>
+      <div class="seg-bar-wrap">
+        <div class="seg-label"><span>High-value (VIP)</span><span>14%</span></div>
+        <div class="seg-bar"><div class="seg-fill" style="width:14%;background:#854F0B"></div></div>
+      </div>
+      <div class="seg-bar-wrap">
+        <div class="seg-label"><span>Churned</span><span>9%</span></div>
+        <div class="seg-bar"><div class="seg-fill" style="width:9%;background:#A32D2D"></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--color-text-secondary)">Retention rate <strong style="color:var(--color-text-primary)">71.4%</strong> &nbsp;·&nbsp; Repeat rate <strong style="color:var(--color-text-primary)">35%</strong></div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-trophy" style="font-size:14px" aria-hidden="true"></i>Top customers</div>
+      <div class="cust-row">
+        <div class="avatar" style="background:#E6F1FB;color:#0C447C">AR</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Anika Reddy</div>
+          <div style="font-size:11px;color:var(--color-text-secondary)">24 orders</div>
+        </div>
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">$8,420</div>
+      </div>
+      <div class="cust-row">
+        <div class="avatar" style="background:#E1F5EE;color:#085041">SM</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Sameer Mehta</div>
+          <div style="font-size:11px;color:var(--color-text-secondary)">19 orders</div>
+        </div>
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">$6,890</div>
+      </div>
+      <div class="cust-row">
+        <div class="avatar" style="background:#FAEEDA;color:#633806">PK</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Priya Kapoor</div>
+          <div style="font-size:11px;color:var(--color-text-secondary)">17 orders</div>
+        </div>
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">$5,310</div>
+      </div>
+      <div class="cust-row">
+        <div class="avatar" style="background:#EEEDFE;color:#3C3489">RV</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Rahul Verma</div>
+          <div style="font-size:11px;color:var(--color-text-secondary)">15 orders</div>
+        </div>
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">$4,760</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-package" style="font-size:14px" aria-hidden="true"></i>Product performance</div>
+      <div class="prod-row">
+        <span style="color:var(--color-text-primary)">Wireless Earbuds Pro</span>
+        <span class="pill pill-g">Top</span>
+      </div>
+      <div class="prod-row" style="color:var(--color-text-secondary);font-size:11px;padding-top:0;padding-bottom:6px;border:none">4,320 units · $312K</div>
+      <div class="prod-row">
+        <span style="color:var(--color-text-primary)">Smart Watch X2</span>
+        <span class="pill pill-g">Top</span>
+      </div>
+      <div class="prod-row" style="color:var(--color-text-secondary);font-size:11px;padding-top:0;padding-bottom:6px;border:none">3,810 units · $274K</div>
+      <div class="prod-row">
+        <span style="color:var(--color-text-primary)">USB-C Hub 7-in-1</span>
+        <span class="pill pill-a">Mid</span>
+      </div>
+      <div class="prod-row" style="color:var(--color-text-secondary);font-size:11px;padding-top:0;padding-bottom:6px;border:none">1,240 units · $62K</div>
+      <div class="prod-row">
+        <span style="color:var(--color-text-primary)">Laptop Stand v3</span>
+        <span class="pill pill-r">Low</span>
+      </div>
+      <div class="prod-row" style="color:var(--color-text-secondary);font-size:11px;padding-top:0;border:none">210 units · $8.4K</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i>Revenue by region (heatmap)</div>
+      <div class="map-grid">
+        <div class="map-cell heat-5">Maharashtra<br><strong>$420K</strong></div>
+        <div class="map-cell heat-4">Delhi NCR<br><strong>$318K</strong></div>
+        <div class="map-cell heat-3">Karnataka<br><strong>$241K</strong></div>
+        <div class="map-cell heat-3">Tamil Nadu<br><strong>$198K</strong></div>
+        <div class="map-cell heat-2">Telangana<br><strong>$154K</strong></div>
+        <div class="map-cell heat-2">Gujarat<br><strong>$132K</strong></div>
+        <div class="map-cell heat-1">Rajasthan<br><strong>$89K</strong></div>
+        <div class="map-cell heat-1">Punjab<br><strong>$71K</strong></div>
+        <div class="map-cell heat-1">Others<br><strong>$847K</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-trending-up" style="font-size:14px" aria-hidden="true"></i>Sales forecast — next 3 months</div>
+      <div class="forecast-pts">
+        <div class="fpt"><strong>$218K</strong>Jan 2025</div>
+        <div class="fpt"><strong>$231K</strong>Feb 2025</div>
+        <div class="fpt"><strong>$257K</strong>Mar 2025</div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--color-text-secondary)">Based on 12-month moving avg + seasonal index. Confidence: 87%</div>
+      <div style="position:relative;height:80px;margin-top:8px"><canvas id="forecastChart" role="img" aria-label="3-month sales forecast bar chart">Jan $218K, Feb $231K, Mar $257K</canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-chart-donut" style="font-size:14px" aria-hidden="true"></i>Profit margin analysis</div>
+      <div style="display:flex;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#185FA5;display:inline-block"></span>Electronics 28%</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#0F6E56;display:inline-block"></span>Accessories 41%</span>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#854F0B;display:inline-block"></span>Wearables 19%</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#A32D2D;display:inline-block"></span>Other 12%</span>
+      </div>
+      <div style="position:relative;height:100px"><canvas id="marginChart" role="img" aria-label="Donut chart of profit margin by category">Electronics 28%, Accessories 41%, Wearables 19%, Other 12%</canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><i class="ti ti-bulb" style="font-size:14px" aria-hidden="true"></i>Recommendation insights</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;color:var(--color-text-secondary)">
+          <strong style="color:var(--color-text-primary);display:block;margin-bottom:2px">Bundle opportunity</strong>
+          Earbuds + Smart Watch co-purchased 68% of the time → create a bundle offer
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;color:var(--color-text-secondary)">
+          <strong style="color:var(--color-text-primary);display:block;margin-bottom:2px">Re-engage churned</strong>
+          312 customers inactive 90+ days → send personalised discount campaign
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;color:var(--color-text-secondary)">
+          <strong style="color:var(--color-text-primary);display:block;margin-bottom:2px">Low-stock alert</strong>
+          Laptop Stand v3 stock at 3% — discontinue or refresh listing
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const rev = [148,162,155,178,190,205,188,212,224,198,268,310];
+const prof = [28,31,29,36,40,44,38,47,51,42,68,84];
+new Chart(document.getElementById('revChart'),{
+  type:'line',
+  data:{labels:months,datasets:[
+    {label:'Revenue',data:rev,borderColor:'#185FA5',borderWidth:2,pointRadius:2,pointBackgroundColor:'#185FA5',tension:0.4,fill:false,borderDash:[]},
+    {label:'Profit',data:prof,borderColor:'#0F6E56',borderWidth:2,pointRadius:2,pointBackgroundColor:'#0F6E56',tension:0.4,fill:false,borderDash:[4,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#888780'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#888780',callback:v=>'$'+v+'K'},grid:{color:'rgba(136,135,128,0.15)'}}}}
+});
+new Chart(document.getElementById('forecastChart'),{
+  type:'bar',
+  data:{labels:['Jan 2025','Feb 2025','Mar 2025'],datasets:[{label:'Forecast',data:[218,231,257],backgroundColor:['#B5D4F4','#85B7EB','#378ADD'],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},color:'#888780'},grid:{display:false}},y:{ticks:{font:{size:10},color:'#888780',callback:v=>'$'+v+'K'},grid:{color:'rgba(136,135,128,0.15)'}}}}
+});
+new Chart(document.getElementById('marginChart'),{
+  type:'doughnut',
+  data:{labels:['Electronics','Accessories','Wearables','Other'],datasets:[{data:[28,41,19,12],backgroundColor:['#185FA5','#0F6E56','#854F0B','#A32D2D'],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}
+});
+</script>
