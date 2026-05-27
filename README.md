@@ -1,316 +1,292 @@
-# 🛒 NexusIQ — E-Commerce Sales & Customer Analytics Platform
+# 📊 E-Commerce Sales & Customer Analytics Platform
 
 <div align="center">
 
-![NexusIQ Banner](https://img.shields.io/badge/NexusIQ-Analytics%20Platform-1D9E75?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyek0xMSAxN2wtNS01IDEuNDEtMS40MUwxMSAxNC4xN2w3LjU5LTcuNTlMMjAgOGwtOSA5eiIvPjwvc3ZnPg==)
+![Dashboard Preview](screenshots/dashboard_overview.png)
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Dashboard-378ADD?style=for-the-badge)](https://your-demo-link.com)
-[![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Chart.js](https://img.shields.io/badge/Chart.js-4.4-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)](https://www.chartjs.org/)
-[![D3.js](https://img.shields.io/badge/D3.js-7.8-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white)](https://d3js.org/)
+[![SQL](https://img.shields.io/badge/SQL-MySQL%208.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
+[![Excel](https://img.shields.io/badge/Microsoft-Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white)](https://www.microsoft.com/excel)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
 
-**A production-grade, fully interactive e-commerce analytics dashboard built with vanilla HTML, CSS, and JavaScript. No frameworks. No build tools. Just open and run.**
+**A production-grade analytics platform built entirely in SQL** — covering sales KPIs, customer behaviour, product performance, regional heatmaps, forecasting, and customer segmentation across a full e-commerce data model.
+
+[View Dashboard →](#-dashboard-preview) · [SQL Queries →](sql/02_analytics_queries.sql) · [Schema →](sql/01_schema.sql) · [Report an Issue](../../issues)
 
 </div>
 
 ---
 
-## 📸 Screenshots
+## 📌 Table of Contents
 
-> **Dashboard Overview — KPIs, Revenue Charts & Category Breakdown**
+- [Overview](#-overview)
+- [Dashboard Preview](#-dashboard-preview)
+- [Features](#-features)
+- [Database Schema](#-database-schema)
+- [Dashboard Sections](#-dashboard-sections)
+- [Advanced Add-ons](#-advanced-add-ons)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Key SQL Techniques Used](#-key-sql-techniques-used)
+- [Tools & Tech Stack](#-tools--tech-stack)
+- [Author](#-author)
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  NexusIQ  │ Overview │ Customers │ Products │ Regional │ Advanced │
-├─────────────────────────────────────────────────────────────────┤
-│  $2.84M        14,293        $891K        $198         ● Live   │
-│  Revenue       Orders        Profit       Avg AOV               │
-├──────────────────────────────┬──────────────────────────────────┤
-│  Monthly Revenue & Orders    │  Revenue by Category             │
-│  [Bar Chart — Jan–Dec 2024]  │  [Donut: Electronics 38%]       │
-├──────────────────────────────┴──────────────────────────────────┤
-│  Daily Order Volume          │  Profit Margin Trend             │
-│  [Line — Last 30 days]       │  [Line — Monthly %]              │
-└─────────────────────────────────────────────────────────────────┘
-```
+---
 
-> **Customer Analytics — Segments, Cohort Retention & Top Buyers**
+## 🌟 Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  8,421 Customers │ 3,876 Repeat │ 68.3% Retention │ $1,247 LTV │
-├──────────────────────────────┬──────────────────────────────────┤
-│  Top Customers by Revenue    │  Customer Retention Cohorts      │
-│  [Table with RFM Segments]   │  [Multi-line cohort chart]       │
-├──────────────────────────────┴──────────────────────────────────┤
-│  Repeat vs New Customers — Monthly Stacked Bar Chart            │
-└─────────────────────────────────────────────────────────────────┘
-```
+This project simulates a **real-world e-commerce analytics system** for a retail business. It is designed to answer business questions across four dimensions:
 
-> **Regional Analytics — Interactive US Revenue Heatmap**
+| Dimension | Questions Answered |
+|---|---|
+| **Sales** | How much revenue did we make? What is our profit margin? |
+| **Customers** | Who are our top buyers? What is our retention rate? |
+| **Products** | What sells best? What should we discontinue? |
+| **Region** | Which states drive the most revenue? |
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Top City: New York  │  Top State: California  │  Growth: Texas │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│         [Interactive D3.js Choropleth Map — Hover States]       │
-│         🟢 Low  🟩 Mid  🟦 High Revenue                          │
-│                                                                 │
-├──────────────────────────────┬──────────────────────────────────┤
-│  Top Cities Table            │  Revenue by US Region (Bar)      │
-└──────────────────────────────┴──────────────────────────────────┘
-```
+All analytics are powered by **pure SQL** — no Python, no Pandas. The final output is visualised in **Power BI** and **Excel**.
 
-> **Advanced Analytics — Forecasting, Segmentation & AI Insights**
+---
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Sales Forecast — Next 6 Months (with confidence bands)         │
-│  [Actual ——  Forecast - - -  Confidence Band ░░░]               │
-├─────────────────────────────────────────────────────────────────┤
-│  Customer Segmentation (RFM Analysis)                           │
-│  Champions 1,203 │ Loyal 2,419 │ At-Risk 634 │ New 1,287       │
-├──────────────────────────────┬──────────────────────────────────┤
-│  Recommendation Insights     │  Profit Margin Analysis          │
-│  Cross-sell / Up-sell / Bundle│ [Gross vs Net line chart]       │
-└──────────────────────────────┴──────────────────────────────────┘
-```
+## 🖼 Dashboard Preview
+
+### Sales KPI Overview
+![Sales KPIs](screenshots/01_sales_kpis.png)
+
+### Customer Analytics
+![Customer Analytics](screenshots/02_customer_analytics.png)
+
+### Product Performance
+![Product Analytics](screenshots/03_product_analytics.png)
+
+### Regional Revenue Heatmap
+![Regional Heatmap](screenshots/04_regional_heatmap.png)
+
+### Advanced Analytics (Forecasting + Segmentation)
+![Advanced Analytics](screenshots/05_advanced_analytics.png)
 
 ---
 
 ## ✨ Features
 
-### 📊 Sales KPIs
-- **Total Revenue** with quarter-over-quarter comparison
-- **Total Orders** with trend indicators
-- **Net Profit** with margin growth tracking
-- **Average Order Value** with directional arrows
+### 📈 Sales KPIs
+- **Total Revenue** — aggregated net revenue after discounts
+- **Total Orders** — distinct order count excluding cancellations/returns
+- **Net Profit** — revenue minus cost of goods sold
+- **Average Order Value (AOV)** — revenue ÷ order count
+- **Monthly Revenue & Profit Trend** — 12-month line chart data
+- **Year-over-Year Comparison** — growth rate calculation
 
 ### 👥 Customer Analytics
-- **Top customers** ranked by lifetime value with RFM tags
-- **Repeat vs new** customer breakdown — monthly stacked bar chart
-- **Cohort retention** curves — track how each cohort retains over 12 months
-- **Customer retention rate** and average LTV metrics
+- **Top 10 Customers** ranked by lifetime value
+- **Repeat Customer Rate** — customers with more than one order
+- **Customer Retention Cohort Analysis** — month-over-month retention
+- **RFM Segmentation** — Recency, Frequency, Monetary scoring with NTILE()
 
 ### 📦 Product Analytics
-- **Best-selling products** table with units, revenue, and trend
-- **Low-performing products** flagged with action suggestions (Discount / Bundle / Review)
-- **Profit margin by category** — horizontal bar visualization
-- **Top 8 products** horizontal bar chart
+- **Best-selling products** by revenue, units, and margin
+- **Low-performing products** flagged for review
+- **Category Revenue Share** with window functions
+- **Profit Margin Analysis** by category
 
-### 🗺️ Regional Analytics
-- **Interactive D3.js choropleth** — hover over any US state to see revenue
-- **Top cities table** with revenue and order counts
-- **Revenue by region** (Northeast / West / South / Midwest / Southwest)
-- Color-coded heatmap with three intensity bands
+### 🗺 Regional Analytics
+- **Sales by State** — ranked revenue table
+- **Sales by City** — top 20 cities
+- **Revenue Heatmap** — Region × Month cross-tab
 
-### 🤖 Advanced Add-ons
-| Feature | Description |
-|---|---|
-| **Sales Forecasting** | 6-month AI-style prediction with upper/lower confidence bands |
-| **Customer Segmentation** | RFM model — Champions, Loyal, Potential, At-Risk, Hibernating, New |
-| **Recommendation Insights** | Cross-sell, up-sell, bundle, and trending product insights |
-| **Profit Margin Analysis** | Gross vs net margin trend — monthly comparison line chart |
+### 🚀 Advanced Add-ons
+- **Sales Forecasting** — 3-month moving average baseline
+- **Customer Segmentation** — RFM-based Champions / Loyal / At Risk / Lost labels
+- **Recommendation Insights** — co-purchase analysis (market basket)
+- **Projected Annual CLV** — customer lifetime value proxy
+- **Churn Detection** — customers inactive 90+ days
+- **Return Rate Analysis** — by product
+
+---
+
+## 🗄 Database Schema
+
+```
+customers ──< orders ──< order_items >── products
+                 │
+               returns
+```
+
+| Table | Rows (sample) | Key Columns |
+|---|---|---|
+| `customers` | 8 | customer_id, segment, region, signup_date |
+| `products` | 8 | product_id, category, unit_cost, unit_price |
+| `orders` | 10 | order_id, customer_id, order_date, status, state |
+| `order_items` | 16 | item_id, order_id, product_id, quantity, discount_pct |
+| `returns` | — | return_id, order_id, return_date, reason |
+
+**Full schema:** [`sql/01_schema.sql`](sql/01_schema.sql)
+
+---
+
+## 📊 Dashboard Sections
+
+### 1. Sales KPIs
+Four headline metric cards — revenue, orders, profit, AOV — with delta vs. prior year. Backed by a monthly trend line.
+
+> **SQL highlight:** Discount-adjusted revenue using `unit_price * quantity * (1 - discount_pct / 100)` across all queries.
+
+### 2. Customer Analytics
+Retention cohort built with a `WITH` CTE that joins customers to their next-month activity. RFM scoring uses `NTILE(5)` window functions for consistent percentile bucketing.
+
+> **SQL highlight:** `NTILE(5) OVER (ORDER BY monetary)` for monetary scoring without hard-coded thresholds.
+
+### 3. Product Analytics
+Best-sellers ranked by revenue with margin % calculated inline. Low performers identified via `LEFT JOIN` to surface products with zero or near-zero sales.
+
+> **SQL highlight:** `SUM() OVER ()` (window function) for category revenue share percentage.
+
+### 4. Regional Analytics
+State and city breakdowns joined from `orders.state`/`orders.city`. Heatmap pivot done in Power BI using Region × Month matrix visual.
+
+### 5. Advanced Add-ons
+- Forecasting baseline: `AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` sliding window
+- Co-purchase: self-join on `order_items` where `order_id` matches but `product_id` differs
+- Churn: `HAVING DATEDIFF(CURDATE(), MAX(order_date)) > 90`
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- MySQL 8.0+ (or compatible: MariaDB 10.5+, PostgreSQL with minor adjustments)
+- MySQL Workbench / DBeaver / any SQL client
+- Power BI Desktop (for dashboard file) — optional
 
-No build tools, no npm, no frameworks needed. Just a browser.
-
+### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/nexusiq-analytics.git
-cd nexusiq-analytics
+git clone https://github.com/YOUR_USERNAME/ecommerce-analytics.git
+cd ecommerce-analytics
 ```
 
-Then open `index.html` in any modern browser.
-
-Or serve locally with Python:
-
+### 2. Create the database & schema
 ```bash
-# Python 3
-python -m http.server 8000
-# Visit http://localhost:8000
+mysql -u root -p < sql/01_schema.sql
 ```
 
-Or with Node.js:
-
+### 3. Load sample data
 ```bash
-npx serve .
+mysql -u root -p < sql/03_sample_data.sql
 ```
+
+### 4. Run analytics queries
+```bash
+mysql -u root -p ecommerce_analytics < sql/02_analytics_queries.sql
+```
+Or open `sql/02_analytics_queries.sql` in MySQL Workbench and run sections individually.
+
+### 5. Connect Power BI (optional)
+1. Open Power BI Desktop
+2. Get Data → MySQL database
+3. Enter your host/credentials
+4. Import tables: `customers`, `orders`, `order_items`, `products`
+5. Use the SQL queries as custom data sources for each visual
 
 ---
 
-## 🗂️ Project Structure
+## 🔑 Key SQL Techniques Used
 
-```
-nexusiq-analytics/
-│
-├── index.html          # Main dashboard (single-file app)
-├── README.md           # This file
-├── LICENSE             # MIT License
-│
-└── assets/             # (optional) screenshots, logos
-    └── preview.png
-```
-
-> This is a **single-file application**. All HTML, CSS, and JavaScript lives in `index.html` — easy to deploy anywhere.
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
+| Technique | Where Used |
 |---|---|
-| Structure | HTML5 (semantic) |
-| Styling | CSS3 with custom properties (light/dark mode) |
-| Charts | [Chart.js 4.4](https://www.chartjs.org/) |
-| Maps | [D3.js 7.8](https://d3js.org/) + [TopoJSON 3](https://github.com/topojson/topojson) |
-| Map Data | [US Atlas](https://github.com/topojson/us-atlas) (CDN) |
-| Icons | [Tabler Icons](https://tabler-icons.io/) (outline, CDN) |
-| Typography | [DM Mono](https://fonts.google.com/specimen/DM+Mono) + [Fraunces](https://fonts.google.com/specimen/Fraunces) |
-| Hosting | GitHub Pages / Netlify / Vercel — any static host |
+| `WITH` (CTEs) | Retention cohort, RFM scoring |
+| `NTILE(n) OVER ()` | RFM percentile buckets |
+| `AVG() OVER (ROWS BETWEEN ...)` | 3-month moving average |
+| `SUM() OVER ()` | Category revenue share % |
+| `LEFT JOIN` | Surface zero-sales products |
+| Self-join | Co-purchase / market basket |
+| `HAVING` with aggregates | Repeat customers, churn detection |
+| `DATEDIFF()` | Recency, customer lifespan |
+| `NULLIF()` | Avoid division-by-zero in margin % |
+| `DATE_FORMAT()` | Monthly grouping for trend charts |
+| `CASE WHEN` | Segment labelling in RFM |
 
 ---
 
-## 📐 Architecture & Design Decisions
+## 🛠 Tools & Tech Stack
 
-### Why single-file?
-- Zero configuration — clone and open
-- Easy to share as a GitHub Gist or CodePen
-- No build step means no broken pipelines
-
-### Why Chart.js + D3.js?
-- **Chart.js** for standard charts (bar, line, donut) — easy API, responsive by default
-- **D3.js** only for the choropleth map — it's the right tool for geographic projections
-- Both load via CDN so there's nothing to install
-
-### Light/dark mode
-The dashboard uses CSS custom properties (`--color-text-primary`, `--color-background-primary`, etc.) which adapt automatically to the user's system preference via `prefers-color-scheme`.
+| Tool | Purpose |
+|---|---|
+| **MySQL 8.0** | Primary analytics engine — all queries |
+| **Power BI Desktop** | Interactive dashboard & visuals |
+| **Microsoft Excel** | Pivot tables, secondary reporting |
+| **MySQL Workbench** | Query development & schema design |
+| **Git / GitHub** | Version control & portfolio hosting |
 
 ---
 
-## 📊 Data
+## 📁 Project Structure
 
-All data in this demo is **realistic synthetic data** — representative of a mid-size e-commerce business generating ~$2–3M/year.
-
-To connect real data:
-
-1. Replace the hardcoded arrays in the `<script>` section with API calls
-2. Use `fetch('/api/sales-kpis')` or similar endpoints
-3. All chart instances are assigned to named variables — easy to update with `.data.datasets[0].data = newData; chart.update()`
-
----
-
-## 🌐 Deploy in 60 Seconds
-
-### GitHub Pages
-1. Push to GitHub
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, `/ (root)`
-4. Your dashboard is live at `https://yourusername.github.io/nexusiq-analytics`
-
-### Netlify (drag & drop)
-1. Go to [netlify.com/drop](https://app.netlify.com/drop)
-2. Drag your project folder in
-3. Done — instant live URL
-
----
-
-## 🧩 Customization Guide
-
-### Change KPI values
-Find the `.kpi-value` sections in `index.html` and update the text content.
-
-### Add a new chart
-```javascript
-new Chart(document.getElementById('myNewChart'), {
-  type: 'bar',
-  data: {
-    labels: ['A', 'B', 'C'],
-    datasets: [{ data: [10, 20, 30], backgroundColor: '#1D9E75' }]
-  },
-  options: { responsive: true, maintainAspectRatio: false }
-});
+```
+ecommerce-analytics/
+│
+├── sql/
+│   ├── 01_schema.sql            # Database tables & indexes
+│   ├── 02_analytics_queries.sql # All dashboard queries (50+ queries)
+│   └── 03_sample_data.sql       # Seed data for demo
+│
+├── screenshots/
+│   ├── dashboard_overview.png
+│   ├── 01_sales_kpis.png
+│   ├── 02_customer_analytics.png
+│   ├── 03_product_analytics.png
+│   ├── 04_regional_heatmap.png
+│   └── 05_advanced_analytics.png
+│
+├── docs/
+│   └── data_dictionary.md       # Column descriptions (optional)
+│
+└── README.md
 ```
 
-### Change the color theme
-Edit the `:root` CSS variables at the top of the `<style>` block:
-```css
-:root {
-  --accent: #1D9E75;   /* primary green */
-  --accent2: #3266AD;  /* blue */
-  --warn: #BA7517;     /* amber */
-}
-```
+---
 
-### Add a new nav section
-1. Add a button to `.topbar-nav`
-2. Add a `<div class="page" id="page-yourname">` block
-3. Call `showPage('yourname')` in the button's `onclick`
+## 💡 What I Learned
+
+- Designing a normalised relational schema for e-commerce data
+- Writing complex analytical SQL using window functions, CTEs, and self-joins
+- Building RFM customer segmentation from scratch without external libraries
+- Translating SQL output into Power BI visuals with drill-through and slicers
+- Structuring a GitHub project for portfolio visibility
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how:
+Pull requests are welcome! For major changes, open an issue first to discuss what you'd like to change.
 
-```bash
-# 1. Fork the repo
-# 2. Create your feature branch
-git checkout -b feature/amazing-feature
-
-# 3. Commit your changes
-git commit -m "Add amazing feature"
-
-# 4. Push to your branch
-git push origin feature/amazing-feature
-
-# 5. Open a Pull Request
-```
-
-### Ideas for contributions
-- [ ] Export charts as PNG / PDF
-- [ ] CSV data import
-- [ ] Date range picker filter
-- [ ] Mobile responsive sidebar nav
-- [ ] Dark mode toggle button
-- [ ] More chart types (scatter, funnel, waterfall)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/new-query`)
+3. Commit your changes (`git commit -m 'Add CLV cohort analysis'`)
+4. Push to the branch (`git push origin feature/new-query`)
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
-You are free to use this in personal projects, commercial projects, portfolios, and client work.
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-## 🙋 FAQ
+## 👤 Author
 
-**Q: Can I use this for a real business?**  
-Yes. Replace the hardcoded data with your API responses and deploy.
-
-**Q: Does it work on mobile?**  
-The layout is desktop-first. Mobile support is a planned enhancement — PRs welcome!
-
-**Q: Is there a backend?**  
-No — this is a pure frontend demo. You supply the data.
-
-**Q: Can I use a different charting library?**  
-Absolutely. Recharts, Plotly, ApexCharts, ECharts — the HTML structure stays the same; just swap the chart initialization code.
+**Your Name**
+- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- LinkedIn: [linkedin.com/in/YOUR_PROFILE](https://linkedin.com/in/YOUR_PROFILE)
+- Email: your.email@example.com
 
 ---
 
 <div align="center">
 
-Built with ❤️ — feel free to ⭐ star this repo if it helped you!
+⭐ **If this project helped you, please give it a star!** ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/nexusiq-analytics?style=social)](https://github.com/YOUR_USERNAME/nexusiq-analytics)
+*Built with SQL · Visualised with Power BI · Hosted on GitHub*
 
 </div>
