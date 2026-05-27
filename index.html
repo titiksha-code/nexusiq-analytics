@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexusIQ — E-Commerce Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F4F4F2;
+  --surface: #ffffff;
+  --surface2: #F1F0EE;
+  --txt: #1a1a18;
+  --txt2: #555550;
+  --txt3: #999990;
+  --border: rgba(0,0,0,0.09);
+  --border2: rgba(0,0,0,0.15);
+  --accent: #1D9E75;
+  --accent2: #378ADD;
+  --warn: #BA7517;
+  --r: 8px;
+  --rl: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111110;
+    --surface: #1c1c1a;
+    --surface2: #252523;
+    --txt: #EEEEE8;
+    --txt2: #AAAAAA;
+    --txt3: #666660;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+  }
+}
+
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); min-height: 100vh; }
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--border2);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-brand {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--txt);
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.topbar-brand span { color: var(--accent); }
+.topbar-nav { display: flex; gap: 4px; flex: 1; flex-wrap: wrap; }
+.nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 13px;
+  border-radius: var(--r);
+  font-size: 13px;
+  color: var(--txt2);
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.nav-btn:hover { background: var(--surface2); color: var(--txt); }
+.nav-btn.active { background: var(--surface2); color: var(--txt); font-weight: 500; }
+.badge-live {
+  font-size: 10px;
+  font-weight: 500;
+  background: #E1F5EE;
+  color: #0F6E56;
+  padding: 3px 9px;
+  border-radius: 99px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.page { display: none; padding: 24px; max-width: 1200px; margin: 0 auto; }
+.page.active { display: block; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.kpi-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--rl);
+  padding: 16px;
+}
+.kpi-accent  { border-top: 2.5px solid #1D9E75; }
+.kpi-accent2 { border-top: 2.5px solid #378ADD; }
+.kpi-accent3 { border-top: 2.5px solid #BA7517; }
+.kpi-accent4 { border-top: 2.5px solid #7F77DD; }
+.kpi-label { font-size: 11px; color: var(--txt3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.kpi-value { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; color: var(--txt); line-height: 1; }
+.kpi-sub { font-size: 12px; margin-top: 6px; color: var(--txt2); }
+.kpi-up   { color: #0F6E56; }
+.kpi-down { color: #993C1D; }
+
+.charts-row  { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+.two-col     { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.chart-card, .full-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--rl);
+  padding: 20px;
+}
+.full-card { margin-bottom: 16px; }
+.chart-title { font-size: 13px; font-weight: 500; color: var(--txt); margin-bottom: 4px; }
+.chart-sub   { font-size: 12px; color: var(--txt3); margin-bottom: 16px; }
+
+.mini-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.mini-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--txt2); }
+.legend-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 11px; font-weight: 500; color: var(--txt3); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 10px; border-bottom: 0.5px solid var(--border2); }
+td { padding: 10px 10px; border-bottom: 0.5px solid var(--border); color: var(--txt); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface2); }
+
+.pill { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 99px; }
+.pill-green  { background: #E1F5EE; color: #085041; }
+.pill-red    { background: #FAECE7; color: #712B13; }
+.pill-blue   { background: #E6F1FB; color: #0C447C; }
+.pill-amber  { background: #FAEEDA; color: #633806; }
+.pill-purple { background: #EEEDFE; color: #3C3489; }
+
+.avatar { width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+.av-teal   { background: #E1F5EE; color: #085041; }
+.av-blue   { background: #E6F1FB; color: #0C447C; }
+.av-purple { background: #EEEDFE; color: #3C3489; }
+.av-coral  { background: #FAECE7; color: #712B13; }
+.av-amber  { background: #FAEEDA; color: #633806; }
+
+.profit-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.profit-bar-label { font-size: 12px; color: var(--txt2); width: 110px; flex-shrink: 0; }
+.profit-bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.profit-bar-fill  { height: 100%; border-radius: 99px; }
+.profit-bar-pct   { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--txt); width: 36px; text-align: right; }
+
+.seg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.seg-card { background: var(--surface2); border-radius: var(--rl); padding: 14px; border: 0.5px solid var(--border); }
+.seg-label { font-size: 11px; color: var(--txt3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.seg-val   { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: var(--txt); }
+.seg-desc  { font-size: 11px; color: var(--txt2); margin-top: 4px; line-height: 1.4; }
+
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; }
+.rec-card { background: var(--surface2); border: 0.5px solid var(--border); border-radius: var(--rl); padding: 14px; }
+.rec-tag   { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--txt3); margin-bottom: 8px; }
+.rec-title { font-size: 13px; font-weight: 500; color: var(--txt); margin-bottom: 4px; }
+.rec-meta  { font-size: 12px; color: var(--txt2); }
+
+@media (max-width: 700px) {
+  .charts-row { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .seg-grid { grid-template-columns: 1fr 1fr; }
+  .topbar-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Nexus<span>IQ</span></div>
+  <nav class="topbar-nav">
+    <button class="nav-btn active" onclick="showPage('overview',this)"><i class="ti ti-layout-dashboard"></i> Overview</button>
+    <button class="nav-btn" onclick="showPage('customers',this)"><i class="ti ti-users"></i> Customers</button>
+    <button class="nav-btn" onclick="showPage('products',this)"><i class="ti ti-box"></i> Products</button>
+    <button class="nav-btn" onclick="showPage('regional',this)"><i class="ti ti-map"></i> Regional</button>
+    <button class="nav-btn" onclick="showPage('advanced',this)"><i class="ti ti-sparkles"></i> Advanced</button>
+  </nav>
+  <span class="badge-live">● Live</span>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<div class="page active" id="page-overview">
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-accent">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value">$2.84M</div>
+      <div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +18.4% vs last quarter</div>
+    </div>
+    <div class="kpi-card kpi-accent2">
+      <div class="kpi-label">Total Orders</div>
+      <div class="kpi-value">14,293</div>
+      <div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +9.2% vs last quarter</div>
+    </div>
+    <div class="kpi-card kpi-accent3">
+      <div class="kpi-label">Net Profit</div>
+      <div class="kpi-value">$891K</div>
+      <div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +22.1% margin growth</div>
+    </div>
+    <div class="kpi-card kpi-accent4">
+      <div class="kpi-label">Avg Order Value</div>
+      <div class="kpi-value">$198</div>
+      <div class="kpi-sub kpi-down"><i class="ti ti-trending-down"></i> -3.1% vs last quarter</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Monthly Revenue &amp; Orders</div>
+      <div class="chart-sub">Jan – Dec 2024</div>
+      <div class="mini-legend">
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Revenue</div>
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#B5D4F4"></span>Orders</div>
+      </div>
+      <div style="position:relative;height:220px"><canvas id="revChart" role="img" aria-label="Monthly revenue and orders 2024">Monthly revenue and orders bar chart for Jan–Dec 2024.</canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Revenue by Category</div>
+      <div class="chart-sub">Share of total sales</div>
+      <div class="mini-legend">
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Electronics 38%</div>
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#378ADD"></span>Apparel 24%</div>
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#BA7517"></span>Home 21%</div>
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#7F77DD"></span>Other 17%</div>
+      </div>
+      <div style="position:relative;height:200px"><canvas id="catChart" role="img" aria-label="Revenue by category donut chart">Revenue breakdown: Electronics 38%, Apparel 24%, Home 21%, Other 17%.</canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-title">Daily Order Volume</div>
+      <div class="chart-sub">Last 30 days</div>
+      <div style="position:relative;height:160px"><canvas id="dailyChart" role="img" aria-label="Daily order volume last 30 days">Line chart of daily order volume for the past 30 days.</canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Profit Margin Trend</div>
+      <div class="chart-sub">Monthly margin %</div>
+      <div style="position:relative;height:160px"><canvas id="marginChart" role="img" aria-label="Monthly profit margin trend">Line chart of monthly profit margin percentage throughout 2024.</canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CUSTOMERS ============ -->
+<div class="page" id="page-customers">
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-accent"><div class="kpi-label">Total Customers</div><div class="kpi-value">8,421</div><div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +312 this month</div></div>
+    <div class="kpi-card kpi-accent2"><div class="kpi-label">Repeat Customers</div><div class="kpi-value">3,876</div><div class="kpi-sub">46% of total base</div></div>
+    <div class="kpi-card kpi-accent3"><div class="kpi-label">Retention Rate</div><div class="kpi-value">68.3%</div><div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +4.2% vs last year</div></div>
+    <div class="kpi-card kpi-accent4"><div class="kpi-label">Avg LTV</div><div class="kpi-value">$1,247</div><div class="kpi-sub kpi-up"><i class="ti ti-trending-up"></i> +11.8% growth</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Top Customers by Revenue</div>
+      <div class="chart-sub">Ranked by lifetime spend</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Customer</th><th>Orders</th><th>LTV</th><th>Segment</th></tr></thead><tbody id="topCustTable"></tbody></table></div>
+    </div>
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Customer Retention Cohorts</div>
+      <div class="chart-sub">Month-over-month retention %</div>
+      <div style="position:relative;height:220px"><canvas id="retentionChart" role="img" aria-label="Cohort retention curves">Multi-line cohort retention chart.</canvas></div>
+    </div>
+  </div>
+  <div style="margin-top:16px" class="full-card">
+    <div class="chart-title">Repeat vs New Customers</div>
+    <div class="chart-sub">Monthly breakdown 2024</div>
+    <div class="mini-legend">
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Repeat</div>
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#B5D4F4"></span>New</div>
+    </div>
+    <div style="position:relative;height:180px"><canvas id="repeatChart" role="img" aria-label="Repeat vs new customers monthly">Stacked bar chart of repeat vs new customers.</canvas></div>
+  </div>
+</div>
+
+<!-- ============ PRODUCTS ============ -->
+<div class="page" id="page-products">
+  <div class="two-col">
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Best-Selling Products</div>
+      <div class="chart-sub">By total units sold</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Product</th><th>Units</th><th>Revenue</th><th>Trend</th></tr></thead><tbody id="bestProdTable"></tbody></table></div>
+    </div>
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Low-Performing Products</div>
+      <div class="chart-sub">Needs attention</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Product</th><th>Units</th><th>Revenue</th><th>Action</th></tr></thead><tbody id="lowProdTable"></tbody></table></div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px" class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Top 8 Products — Revenue Comparison</div>
+      <div class="chart-sub">YTD performance</div>
+      <div style="position:relative;height:280px"><canvas id="prodBarChart" role="img" aria-label="Top 8 products horizontal bar chart">Horizontal bar chart of top 8 products by revenue.</canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Profit Margin by Category</div>
+      <div class="chart-sub">Gross margin %</div>
+      <div style="margin-top:16px">
+        <div class="profit-bar"><div class="profit-bar-label">Electronics</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:34%;background:#1D9E75"></div></div><div class="profit-bar-pct">34%</div></div>
+        <div class="profit-bar"><div class="profit-bar-label">Apparel</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:52%;background:#378ADD"></div></div><div class="profit-bar-pct">52%</div></div>
+        <div class="profit-bar"><div class="profit-bar-label">Home &amp; Living</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:41%;background:#BA7517"></div></div><div class="profit-bar-pct">41%</div></div>
+        <div class="profit-bar"><div class="profit-bar-label">Sports</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:38%;background:#7F77DD"></div></div><div class="profit-bar-pct">38%</div></div>
+        <div class="profit-bar"><div class="profit-bar-label">Beauty</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:61%;background:#D4537E"></div></div><div class="profit-bar-pct">61%</div></div>
+        <div class="profit-bar"><div class="profit-bar-label">Books</div><div class="profit-bar-track"><div class="profit-bar-fill" style="width:29%;background:#888780"></div></div><div class="profit-bar-pct">29%</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ REGIONAL ============ -->
+<div class="page" id="page-regional">
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-accent"><div class="kpi-label">Top City</div><div class="kpi-value" style="font-size:18px">New York</div><div class="kpi-sub">$421K revenue</div></div>
+    <div class="kpi-card kpi-accent2"><div class="kpi-label">Top State</div><div class="kpi-value" style="font-size:18px">California</div><div class="kpi-sub">$683K revenue</div></div>
+    <div class="kpi-card kpi-accent3"><div class="kpi-label">Fastest Growing</div><div class="kpi-value" style="font-size:18px">Texas</div><div class="kpi-sub kpi-up">+31% QoQ</div></div>
+    <div class="kpi-card kpi-accent4"><div class="kpi-label">Active Regions</div><div class="kpi-value">47</div><div class="kpi-sub">States with orders</div></div>
+  </div>
+
+  <div class="full-card">
+    <div class="chart-title">US Revenue Heatmap — by State</div>
+    <div class="chart-sub">Hover over any state to see revenue</div>
+    <div id="mapContainer" style="position:relative;width:100%;height:320px">
+      <div id="usMapSvg" style="width:100%;height:100%"></div>
+    </div>
+    <div class="mini-legend" style="margin-top:12px">
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#9FE1CB"></span>Low ($0–100K)</div>
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Mid ($100–400K)</div>
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#085041"></span>High ($400K+)</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Top Cities by Revenue</div>
+      <div class="chart-sub">YTD sales</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>City</th><th>State</th><th>Revenue</th><th>Orders</th></tr></thead><tbody id="cityTable"></tbody></table></div>
+    </div>
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Revenue by Region</div>
+      <div class="chart-sub">Geographic breakdown</div>
+      <div style="position:relative;height:230px"><canvas id="regionChart" role="img" aria-label="Revenue by US region bar chart">Bar chart showing revenue by US geographic region.</canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADVANCED ============ -->
+<div class="page" id="page-advanced">
+  <div class="full-card">
+    <div class="chart-title">Sales Forecast — Next 6 Months</div>
+    <div class="chart-sub">AI-powered prediction with confidence interval</div>
+    <div class="mini-legend">
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Actual</div>
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#7F77DD"></span>Forecast</div>
+      <div class="mini-legend-item"><span class="legend-dot" style="background:#EEEDFE;border:0.5px solid #AFA9EC"></span>Confidence band</div>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="forecastChart" role="img" aria-label="Sales forecast chart with confidence interval">Line chart with actual and forecasted revenue.</canvas></div>
+  </div>
+
+  <div class="full-card">
+    <div class="chart-title">Customer Segmentation</div>
+    <div class="chart-sub">RFM analysis — Recency, Frequency, Monetary</div>
+    <div class="seg-grid" style="margin-top:12px">
+      <div class="seg-card"><div class="seg-label">Champions</div><div class="seg-val">1,203</div><div class="seg-desc">Bought recently, often, big spenders</div><div style="margin-top:8px"><span class="pill pill-green">High Value</span></div></div>
+      <div class="seg-card"><div class="seg-label">Loyal Customers</div><div class="seg-val">2,419</div><div class="seg-desc">Regular buyers, consistent spend</div><div style="margin-top:8px"><span class="pill pill-blue">Retain</span></div></div>
+      <div class="seg-card"><div class="seg-label">Potential Loyalists</div><div class="seg-val">987</div><div class="seg-desc">Recent buyers with growth potential</div><div style="margin-top:8px"><span class="pill pill-purple">Nurture</span></div></div>
+      <div class="seg-card"><div class="seg-label">At-Risk Customers</div><div class="seg-val">634</div><div class="seg-desc">Declining frequency, need re-engagement</div><div style="margin-top:8px"><span class="pill pill-amber">Re-engage</span></div></div>
+      <div class="seg-card"><div class="seg-label">Hibernating</div><div class="seg-val">1,891</div><div class="seg-desc">Haven't purchased in 90+ days</div><div style="margin-top:8px"><span class="pill pill-red">Win-back</span></div></div>
+      <div class="seg-card"><div class="seg-label">New Customers</div><div class="seg-val">1,287</div><div class="seg-desc">First purchase in last 30 days</div><div style="margin-top:8px"><span class="pill pill-green">Onboard</span></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Recommendation Insights</div>
+      <div class="chart-sub">Cross-sell, up-sell, and bundle opportunities</div>
+      <div class="rec-grid" style="margin-top:12px">
+        <div class="rec-card"><div class="rec-tag">Cross-sell</div><div class="rec-title">AirPods Pro → Phone Case</div><div class="rec-meta">42% co-purchase rate</div></div>
+        <div class="rec-card"><div class="rec-tag">Up-sell</div><div class="rec-title">Basic → Pro Membership</div><div class="rec-meta">$180 avg uplift</div></div>
+        <div class="rec-card"><div class="rec-tag">Bundle</div><div class="rec-title">Laptop + Mouse + Stand</div><div class="rec-meta">$312 bundle value</div></div>
+        <div class="rec-card"><div class="rec-tag">Trending</div><div class="rec-title">Smart Watch Q4 2024</div><div class="rec-meta">+89% demand spike</div></div>
+      </div>
+    </div>
+    <div class="full-card" style="margin-bottom:0">
+      <div class="chart-title">Profit Margin Analysis</div>
+      <div class="chart-sub">Gross vs net margin monthly</div>
+      <div class="mini-legend">
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Gross Margin</div>
+        <div class="mini-legend-item"><span class="legend-dot" style="background:#7F77DD"></span>Net Margin</div>
+      </div>
+      <div style="position:relative;height:190px"><canvas id="profitChart" role="img" aria-label="Gross vs net profit margin">Line chart comparing gross and net margins monthly.</canvas></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+const tickColor = isDark ? '#888' : '#aaa';
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// ── Overview charts ──────────────────────────────────────────
+new Chart(document.getElementById('revChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Revenue ($K)', data: [182,201,195,240,268,312,285,320,338,291,344,361], backgroundColor: '#1D9E75', borderRadius: 3, yAxisID: 'y' },
+      { label: 'Orders',       data: [920,1040,980,1200,1340,1580,1420,1610,1680,1450,1720,1810], backgroundColor: '#B5D4F4', borderRadius: 3, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x:  { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } },
+      y:  { position: 'left',  grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => '$'+v+'K' }, beginAtZero: true },
+      y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { color: tickColor, font: { size: 10 } }, beginAtZero: true }
+    }
+  }
+});
+
+new Chart(document.getElementById('catChart'), {
+  type: 'doughnut',
+  data: { labels: ['Electronics','Apparel','Home','Other'], datasets: [{ data: [38,24,21,17], backgroundColor: ['#1D9E75','#378ADD','#BA7517','#7F77DD'], borderWidth: 0, hoverOffset: 8 }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '64%' }
+});
+
+const dailyData = Array.from({length:30}, (_,i) => Math.round(380 + Math.sin(i/2)*80 + (i*3)));
+new Chart(document.getElementById('dailyChart'), {
+  type: 'line',
+  data: { labels: Array.from({length:30},(_,i)=>i+1), datasets: [{ data: dailyData, borderColor: '#378ADD', borderWidth: 2, tension: 0.4, pointRadius: 0, fill: true, backgroundColor: 'rgba(55,138,221,0.07)' }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, maxTicksLimit: 6 } }, y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } } } } }
+});
+
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: { labels: months, datasets: [{ data: [28,30,29,31,33,35,34,36,37,35,38,40], borderColor: '#1D9E75', borderWidth: 2, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#1D9E75', fill: true, backgroundColor: 'rgba(29,158,117,0.07)' }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } } }, y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => v+'%' }, beginAtZero: false } } }
+});
+
+// ── Customer tables ───────────────────────────────────────────
+const custData = [
+  { name:'Arjun Mehta',    orders:47, ltv:'$8,421', seg:'Champion', av:'av-teal'   },
+  { name:'Priya Singh',    orders:38, ltv:'$6,890', seg:'Champion', av:'av-blue'   },
+  { name:'Rahul Gupta',    orders:31, ltv:'$5,340', seg:'Loyal',    av:'av-purple' },
+  { name:'Sneha Patel',    orders:28, ltv:'$4,912', seg:'Loyal',    av:'av-coral'  },
+  { name:'Vikram Sharma',  orders:24, ltv:'$4,100', seg:'Loyal',    av:'av-amber'  },
+  { name:'Ananya Joshi',   orders:19, ltv:'$3,420', seg:'Potential',av:'av-teal'   },
+];
+const segPillMap = { Champion:'pill-green', Loyal:'pill-blue', Potential:'pill-purple' };
+const tb = document.getElementById('topCustTable');
+custData.forEach(c => {
+  tb.innerHTML += `<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar ${c.av}">${c.name.split(' ').map(n=>n[0]).join('')}</div>${c.name}</div></td><td>${c.orders}</td><td style="font-family:'DM Mono',monospace">${c.ltv}</td><td><span class="pill ${segPillMap[c.seg]||'pill-blue'}">${c.seg}</span></td></tr>`;
+});
+
+new Chart(document.getElementById('retentionChart'), {
+  type: 'line',
+  data: {
+    labels: ['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'],
+    datasets: [
+      { label:'Jan Cohort', data:[100,72,61,58,55,53,51,50,49,48,47,46], borderColor:'#1D9E75', borderWidth:2, tension:0.3, pointRadius:0 },
+      { label:'Apr Cohort', data:[100,68,57,54,52,50,48,47,46,45,null,null], borderColor:'#378ADD', borderWidth:2, tension:0.3, pointRadius:0 },
+      { label:'Jul Cohort', data:[100,71,60,56,53,51,null,null,null,null,null,null], borderColor:'#7F77DD', borderWidth:2, tension:0.3, pointRadius:0 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid:{color:gridColor}, ticks:{color:tickColor,font:{size:10}} }, y: { grid:{color:gridColor}, ticks:{color:tickColor,font:{size:10},callback:v=>v+'%'}, min:40, max:100 } } }
+});
+
+new Chart(document.getElementById('repeatChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      { label:'Repeat', data:[420,440,460,510,540,590,560,610,630,580,650,690], backgroundColor:'#1D9E75', borderRadius:2 },
+      { label:'New',    data:[500,600,520,690,800,990,860,1000,1050,870,1070,1120], backgroundColor:'#B5D4F4', borderRadius:2 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend:{display:false} }, scales: { x:{grid:{color:gridColor},stacked:true,ticks:{color:tickColor,font:{size:11}}}, y:{grid:{color:gridColor},stacked:true,ticks:{color:tickColor,font:{size:10}}} } }
+});
+
+// ── Product tables ────────────────────────────────────────────
+const bestProds = [
+  { name:'AirPods Pro Max',    units:3241, rev:'$648K', trend:'up'   },
+  { name:'Wireless Keyboard',  units:2810, rev:'$281K', trend:'up'   },
+  { name:'Running Shoes X',    units:2640, rev:'$264K', trend:'up'   },
+  { name:'Smart Watch S9',     units:2190, rev:'$438K', trend:'up'   },
+  { name:'Leather Wallet',     units:1920, rev:'$96K',  trend:'down' },
+];
+const lowProds = [
+  { name:'Vintage Table Lamp', units:48,  rev:'$2.9K', action:'Review'  },
+  { name:'Ceramic Vase Set',   units:61,  rev:'$3.7K', action:'Discount'},
+  { name:'Garden Tools Kit',   units:73,  rev:'$5.1K', action:'Bundle'  },
+  { name:'Analog Wall Clock',  units:89,  rev:'$4.5K', action:'Review'  },
+  { name:'Scented Candle Set', units:104, rev:'$3.1K', action:'Promote' },
+];
+const bt = document.getElementById('bestProdTable');
+bestProds.forEach(p => { bt.innerHTML += `<tr><td>${p.name}</td><td>${p.units.toLocaleString()}</td><td style="font-family:'DM Mono',monospace">${p.rev}</td><td><span class="pill ${p.trend==='up'?'pill-green':'pill-red'}">${p.trend==='up'?'▲ Rising':'▼ Falling'}</span></td></tr>`; });
+const lt = document.getElementById('lowProdTable');
+lowProds.forEach(p => { lt.innerHTML += `<tr><td>${p.name}</td><td>${p.units}</td><td style="font-family:'DM Mono',monospace">${p.rev}</td><td><span class="pill pill-amber">${p.action}</span></td></tr>`; });
+
+new Chart(document.getElementById('prodBarChart'), {
+  type: 'bar',
+  data: { labels: ['AirPods Pro','Smart Watch','Wireless KB','Running Shoes','Noise Canceller','USB-C Hub','Laptop Stand','Leather Wallet'], datasets: [{ data:[648,438,281,264,210,188,142,96], backgroundColor:['#1D9E75','#378ADD','#7F77DD','#1D9E75','#378ADD','#7F77DD','#BA7517','#888780'], borderRadius:3 }] },
+  options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10},callback:v=>'$'+v+'K'}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:11}}}} }
+});
+
+// ── Regional ──────────────────────────────────────────────────
+const cities = [
+  { city:'New York',     state:'NY', rev:'$421K', orders:'2,140' },
+  { city:'Los Angeles',  state:'CA', rev:'$387K', orders:'1,960' },
+  { city:'Chicago',      state:'IL', rev:'$298K', orders:'1,510' },
+  { city:'Houston',      state:'TX', rev:'$264K', orders:'1,340' },
+  { city:'San Francisco',state:'CA', rev:'$296K', orders:'1,490' },
+  { city:'Phoenix',      state:'AZ', rev:'$201K', orders:'1,020' },
+  { city:'Seattle',      state:'WA', rev:'$189K', orders:'960'   },
+  { city:'Miami',        state:'FL', rev:'$178K', orders:'900'   },
+];
+const ct = document.getElementById('cityTable');
+cities.forEach(c => { ct.innerHTML += `<tr><td>${c.city}</td><td>${c.state}</td><td style="font-family:'DM Mono',monospace">${c.rev}</td><td>${c.orders}</td></tr>`; });
+
+new Chart(document.getElementById('regionChart'), {
+  type: 'bar',
+  data: { labels:['Northeast','West','South','Midwest','Southwest'], datasets:[{ data:[841,683,521,412,387], backgroundColor:['#1D9E75','#378ADD','#BA7517','#7F77DD','#D4537E'], borderRadius:4 }] },
+  options: { responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:11}}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10},callback:v=>'$'+v+'K'},beginAtZero:true}} }
+});
+
+// D3 choropleth
+const stateRevenue = {'California':683,'New York':421,'Texas':487,'Florida':312,'Illinois':298,'Washington':189,'Massachusetts':167,'Georgia':142,'Colorado':134,'Arizona':201,'Pennsylvania':198,'Ohio':176,'Michigan':154,'North Carolina':143,'Virginia':162,'Nevada':112,'Oregon':98,'Minnesota':89,'Wisconsin':84,'Maryland':97,'New Jersey':178,'Tennessee':131,'Indiana':108,'Missouri':95,'Connecticut':86,'Utah':121,'Oklahoma':74,'Iowa':62,'Kansas':58,'Arkansas':51,'Mississippi':43,'Alabama':67,'Louisiana':79,'South Carolina':88,'Kentucky':71,'Nebraska':54,'West Virginia':31,'New Mexico':49,'Idaho':62,'Hawaii':57,'Maine':38,'New Hampshire':44,'Rhode Island':36,'Montana':29,'Delaware':42,'South Dakota':27,'North Dakota':24,'Wyoming':19,'Vermont':32,'Alaska':48};
+const maxRev = 700;
+
+d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(us => {
+  const colorScale = d3.scaleQuantize([0,maxRev], isDark ? ['#04342C','#085041','#0F6E56','#1D9E75','#5DCAA5'] : ['#E1F5EE','#9FE1CB','#5DCAA5','#1D9E75','#085041']);
+  const w = document.getElementById('usMapSvg').clientWidth || 700;
+  const h = 300;
+  const svg = d3.select('#usMapSvg').append('svg').attr('viewBox',`0 0 960 560`).attr('width','100%').attr('preserveAspectRatio','xMidYMid meet');
+  const proj = d3.geoAlbersUsa().scale(1100).translate([480,280]);
+  const path = d3.geoPath(proj);
+
+  const tip = d3.select('#mapContainer').append('div')
+    .style('position','absolute').style('top','0').style('left','0')
+    .style('background', isDark?'#1c1c1a':'#fff').style('border','0.5px solid rgba(0,0,0,0.12)')
+    .style('border-radius','6px').style('padding','6px 10px').style('font-size','12px')
+    .style('font-family','Inter,sans-serif').style('color',isDark?'#eee':'#222')
+    .style('pointer-events','none').style('opacity',0).style('transition','opacity 0.15s');
+
+  svg.selectAll('path').data(topojson.feature(us,us.objects.states).features).join('path')
+    .attr('d',path)
+    .attr('fill',d => colorScale(stateRevenue[d.properties.name]||0))
+    .attr('stroke',isDark?'rgba(255,255,255,0.15)':'rgba(255,255,255,0.7)')
+    .attr('stroke-width',0.6)
+    .on('mouseover', function(event,d) {
+      const v = stateRevenue[d.properties.name];
+      d3.select(this).attr('opacity',0.75);
+      if(v) tip.style('opacity',1).html(`<strong>${d.properties.name}</strong><br>$${v}K revenue`);
+    })
+    .on('mousemove', function(event) {
+      const rect = document.getElementById('mapContainer').getBoundingClientRect();
+      tip.style('left',(event.clientX-rect.left+12)+'px').style('top',(event.clientY-rect.top-10)+'px');
+    })
+    .on('mouseout', function() { d3.select(this).attr('opacity',1); tip.style('opacity',0); });
+}).catch(() => {
+  document.getElementById('usMapSvg').innerHTML = '<p style="text-align:center;padding:40px;color:#aaa;font-size:13px">Map requires an internet connection to load.</p>';
+});
+
+// ── Advanced charts ───────────────────────────────────────────
+const forecastMonths = [...months,'Jan\'25','Feb\'25','Mar\'25','Apr\'25','May\'25','Jun\'25'];
+new Chart(document.getElementById('forecastChart'), {
+  type: 'line',
+  data: {
+    labels: forecastMonths,
+    datasets: [
+      { label:'Actual',   data:[182,201,195,240,268,312,285,320,338,291,344,361,...Array(6).fill(null)], borderColor:'#1D9E75', borderWidth:2.5, tension:0.4, pointRadius:0, fill:false },
+      { label:'Forecast', data:[...Array(11).fill(null),361,380,402,421,438,460], borderColor:'#7F77DD', borderWidth:2, borderDash:[6,4], tension:0.4, pointRadius:0, fill:false },
+      { label:'Upper',    data:[...Array(11).fill(null),375,405,432,455,476,492], borderColor:'transparent', fill:'+1', backgroundColor:'rgba(127,119,221,0.1)', pointRadius:0 },
+      { label:'Lower',    data:[...Array(11).fill(null),347,355,372,387,400,428], borderColor:'transparent', fill:false, pointRadius:0 }
+    ]
+  },
+  options: { responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10},maxTicksLimit:12}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10},callback:v=>'$'+v+'K'},beginAtZero:false}} }
+});
+
+new Chart(document.getElementById('profitChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      { label:'Gross Margin', data:[42,44,43,45,47,49,47,50,51,48,52,54], borderColor:'#1D9E75', borderWidth:2, tension:0.4, pointRadius:3, pointBackgroundColor:'#1D9E75', fill:false },
+      { label:'Net Margin',   data:[28,30,29,31,33,35,34,36,37,35,38,40], borderColor:'#7F77DD', borderWidth:2, tension:0.4, pointRadius:3, pointBackgroundColor:'#7F77DD', fill:false }
+    ]
+  },
+  options: { responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10}}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:10},callback:v=>v+'%'},beginAtZero:false}} }
+});
+</script>
+</body>
+</html>
